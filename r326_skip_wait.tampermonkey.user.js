@@ -11,10 +11,10 @@
 // @run-at document-start
 // ==/UserScript==
 
+
+/** 予約完了画面の場合の処理 */
 setTimeout(() => {
     console.log('Skip waiting called');
-
-    /** 予約完了画面の場合の処理 */
     if (location.pathname === "/b/complete.aspx") {
         var a = document.getElementById("form1");
         var hiddens = document.querySelectorAll('.aspNetHidden');
@@ -25,13 +25,12 @@ setTimeout(() => {
         a.setAttribute("action", "main.aspx?" + window.GetIdOrG());
         a.submit()
     }
-
 }, 500);
 
-setTimeout(() => {
+/** 広告消去の処理 */
+const removeAdsModal = () => {
     console.log('Remove Ads called', location.pathname);
 
-    /** TODO: 広告消去の処理実装予定 */
     if (location.pathname === "/b/main.aspx") {
         const overlay = document.getElementById('overlay');
         if (overlay) {
@@ -40,4 +39,12 @@ setTimeout(() => {
             modal?.remove();
         }
     }
+}
+
+setTimeout(() => {
+  removeAdsModal();
 }, 500);
+/** タイミングずれて消せない可能性あるので2回実行 */
+setTimeout(() => {
+  removeAdsModal();
+}, 1500);
